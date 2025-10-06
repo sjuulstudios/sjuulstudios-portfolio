@@ -5,7 +5,7 @@ import { Container } from '@/components/Container';
 import { Section } from '@/components/Section';
 import { LogoMarquee } from '@/components/LogoMarquee';
 import { ServicesAccordion } from '@/components/ServicesAccordion';
-import { AboutShowcase } from '@/components/AboutShowcase';
+import AboutShowcase from '@/components/AboutShowcase';
 import { CaseStudyCarousel } from '@/components/CaseStudyCarousel';
 import { site } from '@/config/site';
 import { motion } from 'framer-motion';
