@@ -3,7 +3,7 @@ export const site = {
   name: "Sjuul Smits",
   role: "Freelance Creative Strategist",
   heroTagline: "Building brands on TikTok for 4+ years",
-  email: "",
+  email: "hello@sjuulstudios.com",
   linkedin: "https://www.linkedin.com/in/sjuulsmits",
   domain: "https://www.sjuulstudios.com",
   analytics: { plausibleDomain: "" },
@@ -31,8 +31,6 @@ export const site = {
     { num: "3", title: "INSIGHT", text: "Combining analytical skills with platform expertise to uncover growth opportunities and guide teams toward measurable results." },
     { num: "4", title: "EXPERIENCE", text: "Years of hands-on work with TikTok and social, merging innovation with proven success to build playbooks that scale." }
   ],
-  caseStudiesOrder: [
-    "template",
-    "template", "franky-rizardo", "unive", "duo-penotti", "happn", "beagley-copperman"],
+  caseStudiesOrder: ["template", "franky-rizardo", "unive", "duo-penotti", "happn", "beagley-copperman"],
   heroPhoto: "/images/sjuul-smits.jpg"
 } as const;
