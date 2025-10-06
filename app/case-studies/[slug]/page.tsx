@@ -22,7 +22,7 @@ export async function generateStaticParams(){
   return slugs;
 }
 
-export default function CaseStudyPage({ params }: { params: { slug: string } }){
+export default function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }){
   const data = getCaseStudy(params.slug);
   if(!data) return notFound();
   const tags: string[] = data.tags || [];
