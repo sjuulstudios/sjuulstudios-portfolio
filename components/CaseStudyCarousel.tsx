@@ -101,12 +101,12 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
                   key={item.slug}
                   className={cn(
                     "snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 cursor-pointer",
-                    isMiddle ? "w-[360px] h-[640px] -mt-9 mb-9" : "w-[320px] h-[569px] hover:scale-[1.02]",
+                    isMiddle ? "w-[360px] h-[640px] -mt-9 mb-9" : "w-[320px] h-[569px]",
                     shouldScale && "scale-105"
                   )}
                   onClick={() => router.push(`/case-studies/${item.slug}`)}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
+                  onMouseEnter={() => isMiddle && setHoveredIndex(i)}
+                  onMouseLeave={() => isMiddle && setHoveredIndex(null)}
                 >
                   <Video 
                     src={item.src} 
