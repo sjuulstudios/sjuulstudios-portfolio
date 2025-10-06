@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { site } from '@/config/site';
 import { isReducedMotion } from '@/lib/utils';
 export function LogoMarquee(){
-  const [speed,setSpeed]=useState(site.marqueeSpeed);
+  const [speed,setSpeed]=useState<number>(site.marqueeSpeed);
   useEffect(()=>{ if(isReducedMotion()) setSpeed(Math.max(12, Math.floor(site.marqueeSpeed/2))); },[]);
   const logos = useMemo(()=>[...site.logos, ...site.logos],[]);
   return (
