@@ -121,13 +121,7 @@ export default function HomePage(){
             transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
             viewport={{ once: true }}
           >
-            <CaseStudyCarousel items={site.caseStudiesOrder.map(slug => ({ 
-              src: `/videos/${slug}-hero.mp4`, 
-              poster: `/images/${slug}-cover.jpg`, 
-              client: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), 
-              slug, 
-              description: slug === 'template' ? 'Your campaign could be next' : 'Campaign overview' 
-            }))} />
+            <CaseStudyCarousel />
           </motion.div>
         </Container>
       </Section>
