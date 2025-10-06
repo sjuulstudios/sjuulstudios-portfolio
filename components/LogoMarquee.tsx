@@ -17,7 +17,7 @@ export function LogoMarquee(){
   
   return (
     <div className="overflow-hidden border-y border-border bg-surface">
-      <div className="container-base py-6">
+      <div className="container-base py-8">
         <div className="relative">
           <div 
             className="flex gap-12 items-center whitespace-nowrap" 
@@ -26,13 +26,13 @@ export function LogoMarquee(){
             }}
           >
             {logos.map((src, i) => (
-              <div key={i} className="h-10 relative flex items-center" style={{ minWidth: 120 }}>
+              <div key={i} className="h-16 relative flex items-center" style={{ minWidth: 120 }}>
                 <Image 
                   src={src} 
                   alt="Client logo" 
                   width={120} 
-                  height={40} 
-                  className="h-10 w-auto object-contain opacity-90" 
+                  height={64} 
+                  className="h-16 w-auto object-contain opacity-90" 
                 />
               </div>
             ))}
