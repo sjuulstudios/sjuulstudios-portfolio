@@ -1,47 +1,22 @@
 'use client';
-import { useState, useRef, useEffect, useCallback } from 'react';
+
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { Video } from './Video';
-import { cn } from '@/lib/utils';
+import { site } from '@/config/site';
 
-export type CarouselItem = { 
-  src: string; 
-  poster?: string; 
-  client: string; 
-  slug: string; 
-  description: string; 
-};
-
-export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+export default function CaseStudyCarousel() {
+  const [index, setIndex] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  
+  const total = site.caseStudies.length;
 
-  // Create infinite loop by duplicating items
-  const infiniteItems = [...items, ...items, ...items];
-  const itemsLength = items.length;
-
-  // Get the actual item index using modulo
-  const getActualIndex = useCallback((index: number) => {
-    return ((index % itemsLength) + itemsLength) % itemsLength;
-  }, [itemsLength]);
-
-  // Get current visible items (5 items centered around currentIndex)
-  const getVisibleItems = useCallback(() => {
-    const startIndex = currentIndex;
-    return infiniteItems.slice(startIndex, startIndex + 5).map((item, i) => ({
-      ...item,
-      actualIndex: getActualIndex(startIndex + i)
-    }));
-  }, [currentIndex, infiniteItems, getActualIndex]);
-
-  const visibleItems = getVisibleItems();
-  const middleIndex = 2; // Always the middle item (3rd out of 5)
+  const next = () => setIndex((index + 1) % total);
+  const prev = () => setIndex((index - 1 + total) % total);
 
   const handleDragStart = (e: React.MouseEvent) => {
     if (!carouselRef.current) return;
@@ -62,158 +37,124 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
     setIsDragging(false);
   };
 
-  const scrollToIndex = (newIndex: number) => {
+  // Touch support
+  const handleTouchStart = (e: React.TouchEvent) => {
     if (!carouselRef.current) return;
-    const itemWidth = 340; // Width including gap (320px + 20px gap)
-    
-    // Handle infinite loop
-    let targetIndex = newIndex;
-    if (newIndex < 0) {
-      targetIndex = itemsLength - 1;
-    } else if (newIndex >= itemsLength) {
-      targetIndex = 0;
-    }
-
-    // Calculate scroll position for infinite loop
-    const scrollPosition = (currentIndex + (targetIndex - getActualIndex(currentIndex))) * itemWidth;
-    
-    carouselRef.current.scrollTo({
-      left: scrollPosition,
-      behavior: 'smooth'
-    });
-    
-    setCurrentIndex(currentIndex + (targetIndex - getActualIndex(currentIndex)));
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - carouselRef.current.offsetLeft);
+    setScrollLeft(carouselRef.current.scrollLeft);
   };
 
-  const handleScroll = () => {
-    if (!carouselRef.current) return;
-    const itemWidth = 340;
-    const scrollPosition = carouselRef.current.scrollLeft;
-    const newIndex = Math.round(scrollPosition / itemWidth);
-    
-    // Update current index for infinite loop
-    if (newIndex !== currentIndex) {
-      setCurrentIndex(newIndex);
-    }
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging || !carouselRef.current) return;
+    e.preventDefault();
+    const x = e.touches[0].pageX - carouselRef.current.offsetLeft;
+    const walk = (x - startX) * 2;
+    carouselRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  // Handle infinite loop reset
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-    
-    const handleScrollEnd = () => {
-      const itemWidth = 340;
-      const scrollPosition = carousel.scrollLeft;
-      const currentScrollIndex = Math.round(scrollPosition / itemWidth);
-      
-      // Reset position for infinite loop
-      if (currentScrollIndex >= itemsLength * 2) {
-        const newPosition = (currentScrollIndex - itemsLength) * itemWidth;
-        carousel.scrollTo({ left: newPosition, behavior: 'auto' });
-        setCurrentIndex(currentScrollIndex - itemsLength);
-      } else if (currentScrollIndex < itemsLength) {
-        const newPosition = (currentScrollIndex + itemsLength) * itemWidth;
-        carousel.scrollTo({ left: newPosition, behavior: 'auto' });
-        setCurrentIndex(currentScrollIndex + itemsLength);
-      }
-    };
-
-    carousel.addEventListener('scroll', handleScroll);
-    carousel.addEventListener('scrollend', handleScrollEnd);
-    
-    return () => {
-      carousel.removeEventListener('scroll', handleScroll);
-      carousel.removeEventListener('scrollend', handleScrollEnd);
-    };
-  }, [currentIndex, itemsLength]);
-
-  // Initialize carousel position
-  useEffect(() => {
-    if (carouselRef.current) {
-      const itemWidth = 340;
-      carouselRef.current.scrollLeft = itemsLength * itemWidth; // Start in the middle set
-    }
-  }, [itemsLength]);
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
 
   return (
-    <div className="space-y-6">
-      {/* Carousel */}
-      <div className="relative">
-        <div className="flex items-center justify-center gap-4">
-          <button 
-            aria-label="Previous case study"
-            onClick={() => scrollToIndex(getActualIndex(currentIndex) - 1)}
-            className="h-10 w-10 rounded-full bg-black/30 text-white hover:bg-black/50 transition-all duration-200 opacity-60 hover:opacity-100"
-          >
-            {'<'}
-          </button>
-          
-          <div 
-            ref={carouselRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 max-w-5xl"
-            style={{ 
-              scrollbarWidth: 'none', 
-              msOverflowStyle: 'none',
-              scrollBehavior: 'smooth'
-            }}
-            onMouseDown={handleDragStart}
-            onMouseMove={handleDragMove}
-            onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
-          >
-            {visibleItems.map((item, i) => {
-              const isHovered = hoveredIndex === i;
-              const isMiddle = i === middleIndex;
-              
-              return (
-                <motion.div 
-                  key={`${item.slug}-${i}`}
-                  className={cn(
-                    "snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft cursor-pointer",
-                    "w-[320px] h-[569px] aspect-[9/16]"
-                  )}
-                  whileHover={{ 
-                    scale: 1.05,
-                    zIndex: 10
-                  }}
-                  transition={{ 
-                    duration: 0.25, 
-                    ease: 'easeOut' 
-                  }}
-                  style={{
-                    transformOrigin: 'center center',
-                    boxShadow: isHovered ? '0 0 20px rgba(0,0,0,0.25)' : undefined
-                  }}
-                  onClick={() => router.push(`/case-studies/${item.slug}`)}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                >
-                  <Video 
-                    src={item.src} 
-                    poster={item.poster} 
-                    className="w-full h-full object-cover rounded-2xl" 
-                  />
-                </motion.div>
-              );
-            })}
-          </div>
-          
-          <button 
-            aria-label="Next case study"
-            onClick={() => scrollToIndex(getActualIndex(currentIndex) + 1)}
-            className="h-10 w-10 rounded-full bg-black/30 text-white hover:bg-black/50 transition-all duration-200 opacity-60 hover:opacity-100"
-          >
-            {'>'}
-          </button>
+    <section className="relative py-20 bg-[var(--accent)] text-white overflow-hidden">
+      <div className="text-center mb-12">
+        <h2 className="text-4xl md:text-5xl font-bold mb-3">Case Studies</h2>
+        <p className="text-base opacity-90">Real campaigns, real results. See how I've helped brands grow on TikTok.</p>
+      </div>
+
+      <div className="relative flex items-center justify-center">
+        {/* Left arrow */}
+        <button
+          onClick={prev}
+          className="absolute left-4 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
+          aria-label="Previous case study"
+        >
+          ‹
+        </button>
+
+        {/* Carousel */}
+        <div 
+          ref={carouselRef}
+          className="flex items-center justify-center gap-4 md:gap-8 perspective-[1200px]"
+          onMouseDown={handleDragStart}
+          onMouseMove={handleDragMove}
+          onMouseUp={handleDragEnd}
+          onMouseLeave={handleDragEnd}
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+        >
+          {site.caseStudies.map((study, i) => {
+            const offset = (i - index + total) % total;
+            const isCenter = offset === 0;
+            const sideLeft = offset === total - 1;
+            const sideRight = offset === 1;
+            const farLeft = offset === total - 2;
+            const farRight = offset === 2;
+
+            let transformClass = '';
+            if (isCenter) {
+              transformClass = 'z-30 scale-100';
+            } else if (sideRight) {
+              transformClass = 'z-20 scale-90 opacity-80 blur-[1px] rotate-y-[12deg]';
+            } else if (sideLeft) {
+              transformClass = 'z-20 scale-90 opacity-80 blur-[1px] -rotate-y-[12deg]';
+            } else if (farRight || farLeft) {
+              transformClass = 'z-10 scale-75 opacity-50 blur-[2px]';
+            } else {
+              transformClass = 'z-0 scale-50 opacity-30 blur-[3px]';
+            }
+
+            return (
+              <motion.div
+                key={study.title}
+                className={`relative transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.4)] bg-black/20 aspect-[9/16] w-[200px] md:w-[260px] lg:w-[300px] cursor-pointer ${transformClass}`}
+                animate={{
+                  scale: isCenter ? 1.05 : 1,
+                  zIndex: isCenter ? 50 : 10,
+                  filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
+                  opacity: isCenter ? 1 : 0.6,
+                  rotateY: sideRight ? 12 : sideLeft ? -12 : 0,
+                }}
+                whileHover={isCenter ? { scale: 1.08 } : {}}
+                onClick={() => router.push(`/case-studies/${study.title.toLowerCase().replace(/\s+/g, '-')}`)}
+                style={{
+                  transformStyle: 'preserve-3d',
+                }}
+              >
+                <video
+                  src={study.video}
+                  muted
+                  loop
+                  playsInline
+                  className="object-cover w-full h-full transition-all duration-500 ease-out"
+                  onMouseEnter={(e) => isCenter && e.currentTarget.play()}
+                  onMouseLeave={(e) => isCenter && e.currentTarget.pause()}
+                />
+                <div className="absolute bottom-3 left-3 right-3 text-center text-sm font-medium bg-black/20 backdrop-blur-sm py-2 px-3 rounded-lg">
+                  {study.title}
+                </div>
+                
+                {/* Optional glow effect for center video */}
+                {isCenter && (
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-white/5 via-transparent to-white/5 pointer-events-none" />
+                )}
+              </motion.div>
+            );
+          })}
         </div>
+
+        {/* Right arrow */}
+        <button
+          onClick={next}
+          className="absolute right-4 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
+          aria-label="Next case study"
+        >
+          ›
+        </button>
       </div>
-      
-      {/* Client Info - Synced with middle item */}
-      <div className="text-center animate-fade-in">
-        <div className="font-semibold text-lg">{visibleItems[middleIndex]?.client}</div>
-        <div className="text-sm opacity-80 mt-1">{visibleItems[middleIndex]?.description}</div>
-      </div>
-    </div>
+    </section>
   );
 }

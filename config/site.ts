@@ -36,5 +36,12 @@ export const site = {
     { num: "4", title: "EXPERIENCE", text: "Years of hands-on work with TikTok and social, merging innovation with proven success to build playbooks that scale." }
   ],
   caseStudiesOrder: ["template", "franky-rizardo", "unive", "duo-penotti", "happn", "beagley-copperman"],
-  heroPhoto: "/images/sjuul-smits.jpeg"
+  heroPhoto: "/images/sjuul-smits.jpeg",
+  caseStudies: [
+    { title: 'Univé', video: '/videos/unive.mp4' },
+    { title: 'Remia', video: '/videos/remia.mp4' },
+    { title: 'Lassie', video: '/videos/lassie.mp4' },
+    { title: 'Napoleon', video: '/videos/napoleon.mp4' },
+    { title: 'Corpus', video: '/videos/corpus.mp4' },
+  ]
 } as const;

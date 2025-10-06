@@ -57,3 +57,8 @@ body {
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
 }
+
+/* 3D Perspective for carousel */
+.perspective-\[1200px\] {
+  perspective: 1200px;
+}
