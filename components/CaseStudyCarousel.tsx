@@ -101,7 +101,8 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
                   key={item.slug}
                   className={cn(
                     "snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 cursor-pointer",
-                    shouldScale ? "w-[280px] h-[640px] scale-105" : "w-[240px] h-[568px] hover:scale-[1.02]"
+                    isMiddle ? "w-[280px] h-[640px] -mt-9 mb-9" : "w-[240px] h-[568px] hover:scale-[1.02]",
+                    shouldScale && "scale-105"
                   )}
                   onClick={() => router.push(`/case-studies/${item.slug}`)}
                   onMouseEnter={() => setHoveredIndex(i)}

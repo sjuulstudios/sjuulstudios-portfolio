@@ -17,20 +17,41 @@ export default function HomePage(){
       <Section id="home" variant="accent" className="min-h-screen flex items-center">
         <Container>
           <motion.div 
-            className="grid md:grid-cols-2 gap-12 items-center"
+            className="flex flex-col items-center text-center space-y-8"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, ease: "easeOut" }}
           >
-            <div className="text-center md:text-left space-y-6">
-              <div className="text-sm tracking-widest opacity-90">{site.company}</div>
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight">
+            {/* Centered Photo */}
+            <motion.div 
+              className="relative"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
+            >
+              <div className="h-64 w-64 sm:h-80 sm:w-80 rounded-full overflow-hidden shadow-soft border-4 border-onaccent/20 bg-black/20">
+                <Image 
+                  src={site.heroPhoto} 
+                  alt={`${site.name} headshot`} 
+                  width={512} 
+                  height={512} 
+                  className="h-full w-full object-cover" 
+                />
+              </div>
+              <div className="absolute -bottom-4 -right-4 h-16 w-16 rounded-full bg-onaccent/20 backdrop-blur-sm border border-onaccent/30 flex items-center justify-center">
+                <span className="text-2xl">🎯</span>
+              </div>
+            </motion.div>
+
+            {/* Centered Text */}
+            <div className="space-y-6 max-w-2xl">
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold leading-tight">
                 {site.name}
-                <br />
-                <span className="text-onaccent/90">{site.role}</span>
               </h1>
-              <p className="text-lg opacity-90 max-w-md mx-auto md:mx-0">{site.heroTagline}</p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+              <div className="text-2xl sm:text-3xl md:text-4xl tracking-widest opacity-90">{site.company}</div>
+              <div className="text-xl sm:text-2xl text-onaccent/90 font-medium">{site.role}</div>
+              <p className="text-lg opacity-90 max-w-md mx-auto">{site.heroTagline}</p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link 
                   href="/contact" 
                   className="inline-flex px-6 py-3 rounded-xl bg-onaccent text-accent font-semibold hover:opacity-90 transition-opacity duration-200"
@@ -46,28 +67,6 @@ export default function HomePage(){
                   LinkedIn
                 </a>
               </div>
-            </div>
-            
-            <div className="flex justify-center">
-              <motion.div 
-                className="relative"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
-              >
-                <div className="h-64 w-64 sm:h-80 sm:w-80 rounded-full overflow-hidden shadow-soft border-4 border-onaccent/20 bg-black/20">
-                  <Image 
-                    src={site.heroPhoto} 
-                    alt={`${site.name} headshot`} 
-                    width={512} 
-                    height={512} 
-                    className="h-full w-full object-cover" 
-                  />
-                </div>
-                <div className="absolute -bottom-4 -right-4 h-16 w-16 rounded-full bg-onaccent/20 backdrop-blur-sm border border-onaccent/30 flex items-center justify-center">
-                  <span className="text-2xl">🎯</span>
-                </div>
-              </motion.div>
             </div>
           </motion.div>
         </Container>
