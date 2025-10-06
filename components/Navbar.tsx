@@ -47,7 +47,7 @@ export function Navbar() {
           {anchors.map(a => (
             <a 
               key={a.href} 
-              href={a.href} 
+              href={pathname === '/' ? a.href : `/${a.href}`}
               className={cn(
                 'text-sm hover:opacity-80 transition-opacity duration-200',
                 active === a.href && 'text-accent'

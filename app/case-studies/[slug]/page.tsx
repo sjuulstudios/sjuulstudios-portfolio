@@ -3,6 +3,7 @@ import path from 'node:path';
 import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
+import Link from 'next/link';
 import { Container } from '@/components/Container';
 import { Section } from '@/components/Section';
 import { Chip } from '@/components/Chip';
@@ -53,6 +54,17 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       <Section className="bg-surface border-b border-border">
         <Container>
           <div className="max-w-4xl mx-auto text-center space-y-6">
+            {/* Back Arrow */}
+            <div className="flex justify-start mb-4">
+              <Link 
+                href="/#portfolio" 
+                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-accent transition-colors duration-200"
+              >
+                <span className="text-lg">←</span>
+                Back to Case Studies
+              </Link>
+            </div>
+            
             <div className="text-sm text-accent font-medium tracking-widest uppercase">Case Study</div>
             <h1 className="text-3xl md:text-5xl font-bold">{data.client}</h1>
             <h2 className="text-xl md:text-2xl text-white/80">{data.title}</h2>
@@ -114,10 +126,10 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
                   <div 
                     key={i} 
                     className={`snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 hover:scale-105 ${
-                      isMiddle ? 'w-[280px] h-[500px]' : 'w-[240px] h-[426px]'
+                      isMiddle ? 'w-[280px] h-[498px]' : 'w-[240px] h-[427px]'
                     }`}
                   >
-                    <Video src={v.src} className="w-full h-full object-cover" />
+                    <Video src={v.src} className="w-full h-full object-cover rounded-2xl" />
                   </div>
                 );
               })}

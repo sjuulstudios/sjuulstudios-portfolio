@@ -72,7 +72,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
     <div className="space-y-6">
       {/* Carousel */}
       <div className="relative">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center justify-center gap-4">
           <button 
             aria-label="Previous case study"
             onClick={() => scrollToIndex(Math.max(0, index - 1))}
@@ -84,7 +84,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
           
           <div 
             ref={carouselRef}
-            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 max-w-5xl"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
@@ -110,7 +110,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
                   <Video 
                     src={item.src} 
                     poster={item.poster} 
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-cover rounded-2xl" 
                   />
                 </div>
               );
