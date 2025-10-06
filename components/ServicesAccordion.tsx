@@ -26,11 +26,6 @@ export function ServicesAccordion(){
             >
               <div>
                 <div className="text-base font-semibold">{s.title}</div>
-                {!expanded && (
-                  <p className="text-sm opacity-80 line-clamp-1 mt-1">
-                    {s.description.substring(0, 80)}...
-                  </p>
-                )}
               </div>
               <span 
                 className={cn(

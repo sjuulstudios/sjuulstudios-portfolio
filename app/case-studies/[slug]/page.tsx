@@ -69,7 +69,7 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
         <Container className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
             <div>
-              <h3 className="text-2xl font-bold mb-4">What we did</h3>
+              <h3 className="text-2xl font-bold mb-4">Approach</h3>
               <div className="space-y-4 text-white/80">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-xl bg-muted border border-border">
@@ -102,16 +102,26 @@ export default async function CaseStudyPage({ params }: { params: Promise<{ slug
       {/* Video Gallery Section */}
       <Section className="bg-muted">
         <Container>
-          <div className="text-center mb-8">
+          <div className="text-center mb-12">
             <h3 className="text-2xl font-bold mb-2">Campaign Content</h3>
             <p className="text-white/70">Vertical-first content designed for TikTok's algorithm</p>
           </div>
-          <div className="flex gap-6 overflow-x-auto snap-x pb-4">
-            {(data.videos || []).map((v: any, i: number)=> (
-              <div key={i} className="snap-center shrink-0 w-[240px] h-[426px] rounded-2xl overflow-hidden border border-border bg-black shadow-soft">
-                <Video src={v.src} className="w-full h-full object-cover" />
-              </div>
-            ))}
+          <div className="flex justify-center">
+            <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4 max-w-5xl">
+              {(data.videos || []).map((v: any, i: number)=> {
+                const isMiddle = i === Math.floor((data.videos || []).length / 2);
+                return (
+                  <div 
+                    key={i} 
+                    className={`snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 hover:scale-105 ${
+                      isMiddle ? 'w-[280px] h-[500px]' : 'w-[240px] h-[426px]'
+                    }`}
+                  >
+                    <Video src={v.src} className="w-full h-full object-cover" />
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </Container>
       </Section>

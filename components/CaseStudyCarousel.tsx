@@ -14,6 +14,7 @@ export type CarouselItem = {
 
 export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
   const [index, setIndex] = useState(0);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
@@ -41,7 +42,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
 
   const scrollToIndex = (newIndex: number) => {
     if (!carouselRef.current) return;
-    const itemWidth = 360; // Approximate width including gap
+    const itemWidth = 280; // Width including gap for 5 items
     carouselRef.current.scrollTo({
       left: newIndex * itemWidth,
       behavior: 'smooth'
@@ -51,7 +52,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
 
   const handleScroll = () => {
     if (!carouselRef.current) return;
-    const itemWidth = 360;
+    const itemWidth = 280;
     const newIndex = Math.round(carouselRef.current.scrollLeft / itemWidth);
     setIndex(newIndex);
   };
@@ -63,6 +64,9 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
     carousel.addEventListener('scroll', handleScroll);
     return () => carousel.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Show 5 items at a time
+  const visibleItems = items.slice(0, 5);
 
   return (
     <div className="space-y-6">
@@ -80,26 +84,37 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
           
           <div 
             ref={carouselRef}
-            className="flex gap-6 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
+            className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide pb-4"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
             onMouseUp={handleDragEnd}
             onMouseLeave={handleDragEnd}
           >
-            {items.map((item, i) => (
-              <div 
-                key={item.slug}
-                className="snap-center shrink-0 w-[320px] h-[568px] rounded-2xl overflow-hidden border border-border bg-black shadow-soft hover:shadow-lg transition-all duration-300 hover:scale-[1.02] cursor-pointer"
-                onClick={() => router.push(`/case-studies/${item.slug}`)}
-              >
-                <Video 
-                  src={item.src} 
-                  poster={item.poster} 
-                  className="w-full h-full object-cover" 
-                />
-              </div>
-            ))}
+            {visibleItems.map((item, i) => {
+              const isMiddle = i === 2; // Middle item (3rd out of 5)
+              const isHovered = hoveredIndex === i;
+              const shouldScale = isMiddle && isHovered;
+              
+              return (
+                <div 
+                  key={item.slug}
+                  className={cn(
+                    "snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 cursor-pointer",
+                    shouldScale ? "w-[280px] h-[640px] scale-105" : "w-[240px] h-[568px] hover:scale-[1.02]"
+                  )}
+                  onClick={() => router.push(`/case-studies/${item.slug}`)}
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <Video 
+                    src={item.src} 
+                    poster={item.poster} 
+                    className="w-full h-full object-cover" 
+                  />
+                </div>
+              );
+            })}
           </div>
           
           <button 
@@ -113,10 +128,10 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
         </div>
       </div>
       
-      {/* Client Info */}
+      {/* Client Info - Synced with middle item */}
       <div className="text-center animate-fade-in">
-        <div className="font-semibold text-lg">{items[index]?.client}</div>
-        <div className="text-sm opacity-80 mt-1">{items[index]?.description}</div>
+        <div className="font-semibold text-lg">{visibleItems[2]?.client}</div>
+        <div className="text-sm opacity-80 mt-1">{visibleItems[2]?.description}</div>
       </div>
     </div>
   );
