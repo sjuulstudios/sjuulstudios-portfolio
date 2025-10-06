@@ -18,7 +18,7 @@ export const site = {
     "/logos/lassie.png",
     "/logos/napoleon.png",
     "/logos/unive.png",
-    "/logos/rema.png",
+    "/logos/remia.png",
     "/logos/henry.png",
     "/logos/a-vogel.png",
     "/logos/anta.png"
