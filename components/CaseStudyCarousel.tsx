@@ -42,7 +42,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
 
   const scrollToIndex = (newIndex: number) => {
     if (!carouselRef.current) return;
-    const itemWidth = 280; // Width including gap for 5 items
+    const itemWidth = 340; // Width including gap for 5 items (320px + 20px gap)
     carouselRef.current.scrollTo({
       left: newIndex * itemWidth,
       behavior: 'smooth'
@@ -52,7 +52,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
 
   const handleScroll = () => {
     if (!carouselRef.current) return;
-    const itemWidth = 280;
+    const itemWidth = 340; // Width including gap for 5 items (320px + 20px gap)
     const newIndex = Math.round(carouselRef.current.scrollLeft / itemWidth);
     setIndex(newIndex);
   };
@@ -101,7 +101,7 @@ export function CaseStudyCarousel({ items }: { items: CarouselItem[] }){
                   key={item.slug}
                   className={cn(
                     "snap-center shrink-0 rounded-2xl overflow-hidden border border-border bg-black shadow-soft transition-all duration-300 cursor-pointer",
-                    isMiddle ? "w-[280px] h-[640px] -mt-9 mb-9" : "w-[240px] h-[568px] hover:scale-[1.02]",
+                    isMiddle ? "w-[360px] h-[640px] -mt-9 mb-9" : "w-[320px] h-[569px] hover:scale-[1.02]",
                     shouldScale && "scale-105"
                   )}
                   onClick={() => router.push(`/case-studies/${item.slug}`)}
