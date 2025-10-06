@@ -75,7 +75,6 @@ export default function HomePage(){
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Case Studies</h2>
             <p className="text-onaccent/80 max-w-2xl mx-auto">Real campaigns, real results. See how I've helped brands grow on TikTok.</p>
-            </p>
           </div>
           <CaseStudyCarousel items={site.caseStudiesOrder.map(slug=> ({ 
             src: `/videos/${slug}-hero.mp4`, 

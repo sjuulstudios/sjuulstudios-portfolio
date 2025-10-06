@@ -3,7 +3,7 @@ export const site = {
   name: "Sjuul Smits",
   role: "Freelance Creative Strategist",
   heroTagline: "Building brands on TikTok for 4+ years",
-  email: "hello@sjuulstudios.com",
+  email: "business@sjuulstudios.com",
   linkedin: "https://www.linkedin.com/in/sjuulsmits",
   domain: "https://www.sjuulstudios.com",
   analytics: { plausibleDomain: "" },
