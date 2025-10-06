@@ -3,11 +3,13 @@
 @tailwind utilities;
 
 :root {
-  --bg: #0b0b0b;
-  --surface: #111111;
+  --bg: #0e0e0e;
+  --surface: #141414;
   --muted: #1a1a1a;
-  --border: #222222;
-  --text: #f2f2f2;
+  --border: #242424;
+  --text: #f3f3f3;
+  --accent: #FF5105;
+  --onaccent: #FFFFFF;
 }
 
 html { scroll-behavior: smooth; }
@@ -18,7 +20,12 @@ body {
 }
 
 .container-base { @apply mx-auto px-4 sm:px-6 lg:px-8; }
+
 .section-base { @apply py-16 sm:py-20 md:py-24; }
+
+.section--dark { @apply bg-bg; }
+.section--muted { @apply bg-muted; }
+.section--accent { @apply bg-accent text-onaccent; }
 
 :where(a, button, [role="button"], input, textarea, select):focus-visible {
   outline: 2px solid #ff5105;
@@ -32,4 +39,21 @@ body {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Hide scrollbars */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Line clamp utility */
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
 }

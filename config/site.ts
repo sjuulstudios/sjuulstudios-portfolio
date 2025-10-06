@@ -7,7 +7,7 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/sjuulsmits",
   domain: "https://www.sjuulstudios.com",
   analytics: { plausibleDomain: "" },
-  marqueeSpeed: 35,
+  marqueeSpeed: 50,
   caseCarouselAutoplay: false,
   logos: [
     "/logos/duo-penotti.png",
