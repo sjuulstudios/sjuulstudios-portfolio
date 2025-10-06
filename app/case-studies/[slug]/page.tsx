@@ -22,8 +22,9 @@ export async function generateStaticParams(){
   return slugs;
 }
 
-export default function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }){
-  const data = getCaseStudy(params.slug);
+export default async function CaseStudyPage({ params }: { params: Promise<{ slug: string }> }){
+  const { slug } = await params;
+  const data = getCaseStudy(slug);
   if(!data) return notFound();
   const tags: string[] = data.tags || [];
   return (
