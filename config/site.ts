@@ -36,5 +36,5 @@ export const site = {
     { num: "4", title: "EXPERIENCE", text: "Years of hands-on work with TikTok and social, merging innovation with proven success to build playbooks that scale." }
   ],
   caseStudiesOrder: ["template", "franky-rizardo", "unive", "duo-penotti", "happn", "beagley-copperman"],
-  heroPhoto: "/images/sjuul-smits.jpg"
+  heroPhoto: "/images/sjuul-smits.jpeg"
 } as const;
