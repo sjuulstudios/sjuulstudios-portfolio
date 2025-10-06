@@ -38,7 +38,7 @@ export const site = {
   caseStudiesOrder: ["template", "franky-rizardo", "unive", "duo-penotti", "happn", "beagley-copperman"],
   heroPhoto: "/images/sjuul-smits.jpeg",
   caseStudies: [
-    { title: 'Univé', video: '/videos/unive.mp4' },
+    { title: 'Univé', video: '/videos/unive-vertical-1.mp4' },
     { title: 'Remia', video: '/videos/remia.mp4' },
     { title: 'Lassie', video: '/videos/lassie.mp4' },
     { title: 'Napoleon', video: '/videos/napoleon.mp4' },
