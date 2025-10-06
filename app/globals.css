@@ -1,0 +1,35 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b0b0b;
+  --surface: #111111;
+  --muted: #1a1a1a;
+  --border: #222222;
+  --text: #f2f2f2;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.container-base { @apply mx-auto px-4 sm:px-6 lg:px-8; }
+.section-base { @apply py-16 sm:py-20 md:py-24; }
+
+:where(a, button, [role="button"], input, textarea, select):focus-visible {
+  outline: 2px solid #ff5105;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
