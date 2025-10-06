@@ -17,7 +17,11 @@ export const site = {
     "/logos/jbl.png",
     "/logos/lassie.png",
     "/logos/napoleon.png",
-    "/logos/unive.png"
+    "/logos/unive.png",
+    "/logos/rema.png",
+    "/logos/henry.png",
+    "/logos/a-vogel.png",
+    "/logos/anta.png"
   ],
   services: [
     { title: "Social Strategy", description: "Define a clear audience, positioning and content roadmap for TikTok-first growth. We map pillars, posting cadence and KPI targets, then translate this into weekly actions you can sustain." },
