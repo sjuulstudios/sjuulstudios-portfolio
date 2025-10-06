@@ -77,7 +77,7 @@ export default function HomePage(){
       <LogoMarquee />
 
       {/* Services Section */}
-      <Section id="services" variant="surface">
+      <Section id="services" variant="muted">
         <Container>
           <motion.div 
             className="text-center mb-12"
