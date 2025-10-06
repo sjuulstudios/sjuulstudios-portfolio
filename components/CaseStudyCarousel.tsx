@@ -61,14 +61,16 @@ export default function CaseStudyCarousel() {
     <section className="relative py-20 bg-[var(--accent)] text-white overflow-hidden">
       <div className="text-center mb-12">
         <h2 className="text-4xl md:text-5xl font-bold mb-3">Case Studies</h2>
-        <p className="text-base opacity-90">Real campaigns, real results. See how I've helped brands grow on TikTok.</p>
+        <p className="text-base opacity-90">
+          Real campaigns, real results. See how I've helped brands grow on TikTok.
+        </p>
       </div>
 
       <div className="relative flex items-center justify-center">
         {/* Left arrow */}
         <button
           onClick={prev}
-          className="absolute left-4 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
+          className="absolute left-6 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
           aria-label="Previous case study"
         >
           ‹
@@ -77,7 +79,7 @@ export default function CaseStudyCarousel() {
         {/* Carousel */}
         <div 
           ref={carouselRef}
-          className="flex items-center justify-center gap-4 md:gap-8 perspective-[1200px]"
+          className="flex items-center justify-center gap-6 md:gap-10 perspective-[1200px]"
           onMouseDown={handleDragStart}
           onMouseMove={handleDragMove}
           onMouseUp={handleDragEnd}
@@ -89,36 +91,29 @@ export default function CaseStudyCarousel() {
           {site.caseStudies.map((study, i) => {
             const offset = (i - index + total) % total;
             const isCenter = offset === 0;
-            const sideLeft = offset === total - 1;
-            const sideRight = offset === 1;
-            const farLeft = offset === total - 2;
-            const farRight = offset === 2;
+            const isLeft = offset === total - 1;
+            const isRight = offset === 1;
 
-            let transformClass = '';
-            if (isCenter) {
-              transformClass = 'z-30 scale-100';
-            } else if (sideRight) {
-              transformClass = 'z-20 scale-90 opacity-80 blur-[1px] rotate-y-[12deg]';
-            } else if (sideLeft) {
-              transformClass = 'z-20 scale-90 opacity-80 blur-[1px] -rotate-y-[12deg]';
-            } else if (farRight || farLeft) {
-              transformClass = 'z-10 scale-75 opacity-50 blur-[2px]';
-            } else {
-              transformClass = 'z-0 scale-50 opacity-30 blur-[3px]';
-            }
+            // Only render 3 visible cards
+            if (!isCenter && !isLeft && !isRight) return null;
+
+            const transforms = isCenter
+              ? 'z-30 scale-110 brightness-110 shadow-[0_0_25px_rgba(255,255,255,0.25)]'
+              : isLeft
+              ? 'z-20 scale-90 -rotate-y-[10deg] opacity-60 brightness-75'
+              : 'z-20 scale-90 rotate-y-[10deg] opacity-60 brightness-75';
 
             return (
               <motion.div
                 key={study.title}
-                className={`relative transition-all duration-700 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-2xl overflow-hidden shadow-[0_8px_20px_rgba(0,0,0,0.4)] bg-black/20 aspect-[9/16] w-[200px] md:w-[260px] lg:w-[300px] cursor-pointer ${transformClass}`}
+                className={`relative transition-all duration-700 ease-out rounded-2xl overflow-hidden shadow-xl bg-black/20 aspect-[9/16] w-[220px] md:w-[260px] lg:w-[300px] cursor-pointer ${transforms}`}
                 animate={{
-                  scale: isCenter ? 1.05 : 1,
+                  scale: isCenter ? 1.1 : 0.9,
                   zIndex: isCenter ? 50 : 10,
-                  filter: isCenter ? 'blur(0px)' : 'blur(1.5px)',
                   opacity: isCenter ? 1 : 0.6,
-                  rotateY: sideRight ? 12 : sideLeft ? -12 : 0,
+                  rotateY: isLeft ? -10 : isRight ? 10 : 0,
                 }}
-                whileHover={isCenter ? { scale: 1.08 } : {}}
+                whileHover={isCenter ? { scale: 1.15 } : {}}
                 onClick={() => router.push(`/case-studies/${study.title.toLowerCase().replace(/\s+/g, '-')}`)}
                 style={{
                   transformStyle: 'preserve-3d',
@@ -133,7 +128,7 @@ export default function CaseStudyCarousel() {
                   onMouseEnter={(e) => isCenter && e.currentTarget.play()}
                   onMouseLeave={(e) => isCenter && e.currentTarget.pause()}
                 />
-                <div className="absolute bottom-3 left-3 right-3 text-center text-sm font-medium bg-black/20 backdrop-blur-sm py-2 px-3 rounded-lg">
+                <div className="absolute bottom-3 left-3 right-3 text-center text-sm font-medium bg-black/30 backdrop-blur-sm py-2 px-3 rounded-lg">
                   {study.title}
                 </div>
                 
@@ -149,7 +144,7 @@ export default function CaseStudyCarousel() {
         {/* Right arrow */}
         <button
           onClick={next}
-          className="absolute right-4 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
+          className="absolute right-6 z-20 bg-black/30 hover:bg-black/50 w-10 h-10 rounded-full flex items-center justify-center text-white transition-all duration-200"
           aria-label="Next case study"
         >
           ›

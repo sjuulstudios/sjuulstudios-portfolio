@@ -62,3 +62,8 @@ body {
 .perspective-\[1200px\] {
   perspective: 1200px;
 }
+
+/* Optional glow effect for smoother highlight */
+.shadow-glow {
+  box-shadow: 0 0 30px rgba(255, 255, 255, 0.25);
+}
