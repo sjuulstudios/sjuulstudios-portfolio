@@ -1,70 +1,71 @@
 'use client';
-import Image from 'next/image';
-import { site } from '@/config/site';
-import { cn } from '@/lib/utils';
 
-export function AboutShowcase(){
+import Image from 'next/image';
+import { motion, useReducedMotion } from 'framer-motion';
+import { site } from '@/config/site';
+
+type Pillar = { num: string; title: string; text: string };
+
+function PillarCard({ pillar, className }: { pillar: Pillar; className?: string }) {
   return (
-    <div className="max-w-6xl mx-auto">
-      {/* Grid Layout: 1 picture 2, 3 picture 4 */}
-      <div className="grid grid-cols-2 gap-6">
-        {/* Pillar 1 */}
-        <div 
-          className={cn(
-            'rounded-2xl bg-surface border border-border p-6 shadow-soft hover:shadow-lg transition-all duration-300 hover:scale-[1.02]',
-            'animate-fade-in-up'
-          )}
-          style={{ animationDelay: '0ms' }}
-        >
-          <div className="text-4xl font-extrabold text-accent mb-2">{site.aboutPillars[0].num}</div>
-          <div className="text-lg font-semibold tracking-wide mb-3">{site.aboutPillars[0].title}</div>
-          <p className="text-sm text-white/80 leading-relaxed">{site.aboutPillars[0].text}</p>
+    <motion.article
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.25, ease: 'easeOut' }}
+      className={`relative rounded-2xl bg-[var(--surface)] border border-[var(--border)] p-6 md:p-8 shadow-sm ${className ?? ''}`}
+    >
+      <span aria-hidden className="pointer-events-none absolute -top-3 -left-2 md:-left-1 text-7xl md:text-8xl font-black opacity-10 leading-none select-none">
+        {pillar.num}
+      </span>
+      <h3 className="text-lg md:text-xl font-semibold tracking-wide uppercase">{pillar.title}</h3>
+      <p className="mt-3 text-sm md:text-base text-[var(--text)]/85">{pillar.text}</p>
+    </motion.article>
+  );
+}
+
+export default function AboutShowcase() {
+  const [p1, p2, p3, p4] = site.aboutPillars;
+  return (
+    <section id="about" aria-labelledby="about-heading" className="py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="flex flex-col items-center">
+          <div className="h-[2px] w-12 rounded-full bg-white/20 mb-3" />
+          <h2 id="about-heading" className="text-3xl md:text-4xl font-extrabold tracking-tight text-center">WORK WITH ME</h2>
         </div>
 
-        {/* Picture - Lengthened and centered */}
-        <div className="flex justify-center items-center">
-          <div className="relative">
-            <div className="h-64 w-48 sm:h-72 sm:w-56 rounded-2xl overflow-hidden shadow-soft border border-border bg-black/20">
-              <Image 
-                src={site.heroPhoto} 
-                alt={`${site.name} professional headshot`} 
-                width={224} 
-                height={288} 
-                className="h-full w-full object-cover" 
-              />
-            </div>
-            <div className="absolute -bottom-2 -right-2 h-12 w-12 rounded-full bg-accent/20 backdrop-blur-sm border border-accent/30 flex items-center justify-center">
-              <span className="text-lg">✨</span>
-            </div>
+        <div className="mt-10 md:mt-14 grid grid-cols-1 md:grid-cols-[1fr_minmax(280px,_520px)_1fr] gap-8 lg:gap-12 items-start">
+          {/* Left column: 1 & 3 */}
+          <div className="space-y-6 md:space-y-8 order-2 md:order-1">
+            <PillarCard pillar={p1} />
+            <PillarCard pillar={p3} />
+          </div>
+
+          {/* Center photo */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.25, ease: 'easeOut' }}
+            className="order-1 md:order-2 rounded-2xl overflow-hidden bg-black/20 border border-[var(--border)] shadow"
+          >
+            <Image
+              src={site.heroPhoto}
+              alt="Sjuul Smits"
+              width={1040}
+              height={1560}
+              className="h-full w-full object-cover"
+              priority
+            />
+          </motion.div>
+
+          {/* Right column: 2 & 4 */}
+          <div className="space-y-6 md:space-y-8 order-3">
+            <PillarCard pillar={p2} />
+            <PillarCard pillar={p4} />
           </div>
         </div>
-
-        {/* Pillar 3 */}
-        <div 
-          className={cn(
-            'rounded-2xl bg-surface border border-border p-6 shadow-soft hover:shadow-lg transition-all duration-300 hover:scale-[1.02]',
-            'animate-fade-in-up'
-          )}
-          style={{ animationDelay: '200ms' }}
-        >
-          <div className="text-4xl font-extrabold text-accent mb-2">{site.aboutPillars[2].num}</div>
-          <div className="text-lg font-semibold tracking-wide mb-3">{site.aboutPillars[2].title}</div>
-          <p className="text-sm text-white/80 leading-relaxed">{site.aboutPillars[2].text}</p>
-        </div>
-
-        {/* Pillar 4 */}
-        <div 
-          className={cn(
-            'rounded-2xl bg-surface border border-border p-6 shadow-soft hover:shadow-lg transition-all duration-300 hover:scale-[1.02]',
-            'animate-fade-in-up'
-          )}
-          style={{ animationDelay: '300ms' }}
-        >
-          <div className="text-4xl font-extrabold text-accent mb-2">{site.aboutPillars[3].num}</div>
-          <div className="text-lg font-semibold tracking-wide mb-3">{site.aboutPillars[3].title}</div>
-          <p className="text-sm text-white/80 leading-relaxed">{site.aboutPillars[3].text}</p>
-        </div>
       </div>
-    </div>
+    </section>
   );
 }

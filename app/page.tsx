@@ -100,28 +100,7 @@ export default function HomePage(){
       </Section>
 
       {/* About Section */}
-      <Section id="about" variant="dark">
-        <Container>
-          <motion.div 
-            className="text-center mb-12"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
-            <p className="text-white/70 max-w-2xl mx-auto">Four pillars that drive every collaboration and campaign I work on.</p>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
-            viewport={{ once: true }}
-          >
-            <AboutShowcase />
-          </motion.div>
-        </Container>
-      </Section>
+      <AboutShowcase />
 
       {/* Case Studies Section */}
       <Section id="portfolio" variant="accent">
